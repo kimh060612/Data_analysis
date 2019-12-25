@@ -28,11 +28,9 @@ for con in data_list:
     image_train = cv2.imread(data_path+con, cv2.IMREAD_GRAYSCALE)
     Img_data.append(image_train)
 
-Img_data = np.array(Img_data)
-Y = np.array(Y)
+print(Img_data)
 
-X_train, X_test, Y_train, Y_test = train_test_split(Img_data, Y, test_size=0.3, random_state=777)
-
+'''
 model = K.models.Sequential()
 model.add(K.layers.Conv2D(32, (3,3), activation="relu", input_shape=(300,300,1)))
 model.add(K.layers.MaxPooling2D(2,2))
@@ -51,3 +49,4 @@ model.fit(X_train, Y_train, epochs=100)
 test_loss, test_acc = model.evaluate(X_test, Y_test, verbose=2)
 
 print("Test Accuarcy:", test_acc*100, "%")
+'''
