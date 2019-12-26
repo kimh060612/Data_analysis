@@ -38,8 +38,6 @@ for i in range(len(data_list_test)):
 Y = np.array(Y).reshape((-1,3))
 Img_data = np.array(Img_data).reshape((-1,50,50,1))
 
-Img_data = dataGen.flow_from_dataframe(Img_data, target_size=(50,50), batch_size= 32, class_mode="binary")
-
 Y_test = np.array(Y_test).reshape((-1,3))
 Img_data_test = np.array(Img_data_test).reshape((-1,50,50,1))
 print(Img_data.shape)
