@@ -10,8 +10,8 @@ imageType = ['red', 'green', 'blue', 'yellow']
 def imageMerge(imageHash, ImagePath):
     imageList = []
     for i in range(4):
-        imageName = imageHash + '_' + imagType[i] + '.png'
-        imageArray = Image.open(ImagePath + '/' + imageName, cv2.IMREAD_UNCHANGED)
+        imageName = imageHash + '_' + imageType[i] + '.png'
+        imageArray = Image.open(ImagePath + '/' + imageName)
         imageList.append(imageArray)
     RGBYImage = np.transpose(np.array(imageList), (1, 2, 0))
     return RGBYImage
@@ -33,6 +33,7 @@ class CellTrainingDataset(Dataset):
 
     def getEncodedDistribution(self):
         oneHotEmbedding = []
+        N = len(self.GTList)
         for i in range(N):
             labels = self.GTList['Label'][i]
             labels = labels.split('|')
@@ -61,18 +62,36 @@ class CellTrainingDataset(Dataset):
         y = torch.FloatTensor(self.imgLabel[idx])
         return x, y
 
-class CellTestDataset(Dataset):
+class CellTestDataset:
     def __init__(self):
         super().__init__()
         self.testImageDir = os.path.abspath('/data/CellData/test')
-        
+        self.testList = os.listdir(self.testImageDir)
+        self.testImage = self.getRGBYImage()
+
+    def getTestImageDict(self):
+        N = len(self.testList)
+        imageType = ['red', 'green', 'blue', 'yellow']
+        imageHashList = []
+        imageDict = {}
+        for i in range(N):
+            imageHash = self.testList[i].split('_')[0]
+            try:
+                imageDict[imageHash].append(self.testList[i])
+            except:
+                imageDict[imageHash] = [self.testList[i]]
+        for _, key in enumerate(imageDict):
+            imageHashList.append(key)
+            pass
+        return imageHashList
 
     def getRGBYImage(self):
-        pass
-    
-    def __len__(self):
-        pass
-
-    def __getitem__(self):
-        pass
+        imageHashList = self.getTestImageDict()
+        N = len(imageHashList)
+        image2Test = []
+        for i in range(N):
+            image2Load = imageMerge(imageHashList[i], self.testImageDir)
+            image2Test.append(image2Load)
+        image2Test = np.array(image2Test)
+        return image2Test
 
