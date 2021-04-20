@@ -48,7 +48,7 @@ class CellTrainingDataset(Dataset):
         image2Train = []
         for i in range(N):
             imageHash = self.GTList['ID'][i]
-            image2Load = imageMerge(imageHash, self.ImagePath)
+            image2Load = imageMerge(imageHash, self.ImagePath + '/train')
             image2Train.append(image2Load)
         imageArr2Load = np.array(image2Train)
         print(imageArr2Load.shape)
