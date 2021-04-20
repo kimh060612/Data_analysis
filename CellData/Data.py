@@ -2,7 +2,7 @@ import torch
 from torch.utils.data import Dataset
 import os
 import numpy as np
-from PIL import Image
+import cv2
 import pandas as pd
 
 imageType = ['red', 'green', 'blue', 'yellow']
@@ -11,7 +11,7 @@ def imageMerge(imageHash, ImagePath):
     imageList = []
     for i in range(4):
         imageName = imageHash + '_' + imageType[i] + '.png'
-        imageArray = Image.open(ImagePath + '/' + imageName)
+        imageArray = cv2.imread(ImagePath + '/' + imageName, cv2.IMREAD_UNCHANGED)
         imageList.append(imageArray)
     RGBYImage = np.transpose(np.array(imageList), (1, 2, 0))
     return RGBYImage
