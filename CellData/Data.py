@@ -23,10 +23,10 @@ def oneHotEncoding(label):
     return OH
 
 class CellTrainingDataset(Dataset):
-    def __init__(self, img_dir = '/data/CellData/train'):
+    def __init__(self, img_dir = '/data/CellData'):
         super().__init__()
         self.ImagePath = os.path.abspath(img_dir)
-        self.dataList = os.listdir(self.ImagePath)
+        self.dataList = os.listdir(self.ImagePath + '/train')
         self.GTList = pd.read_csv(self.ImagePath + '/train.csv')
         self.imgLabel = self.getEncodedDistribution()
         self.ImageTensor = self.getRGBYImages()
