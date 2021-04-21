@@ -2,19 +2,13 @@ import torch
 import torch.nn as nn
 from torch import optim
 from model.loss import AsymmetricLoss
-from model.model import visionTransformer
+from model.model import visionTransformer, device
 from Data import CellTestDataset, CellTrainingDataset
 from torch.utils.data import DataLoader
 
 learning_rate = 0.001
 training_epochs = 15
 batch_size = 100
-
-device = 'cuda' if torch.cuda.is_available() else 'cpu'
-torch.manual_seed(777) 
-# GPU 사용 가능일 경우 랜덤 시드 고정
-if device == 'cuda':
-    torch.cuda.manual_seed_all(777)
 
 TrainData = CellTrainingDataset()
 TestData = CellTestDataset().testImage
@@ -24,10 +18,8 @@ dataLoader = DataLoader(dataset=TrainData,
                         shuffle=True,
                         drop_last = True)
 
-TransformerModel = visionTransformer().to(device)
-
 criterion = AsymmetricLoss()
-optimizer = optim.Adam(TransformerModel.parameters(), lr=learning_rate)
+optimizer = optim.Adam(visionTransformer.parameters(), lr=learning_rate)
 
 total_batch = len(dataLoader)
 print('총 배치의 수 : {}'.format(total_batch))
@@ -42,7 +34,7 @@ for epoch in range(training_epochs):
         Y = Y.to(device)
 
         optimizer.zero_grad()
-        hypothesis = TransformerModel(X)
+        hypothesis = visionTransformer(X)
         cost = criterion(hypothesis, Y)
         cost.backward()
         optimizer.step()
