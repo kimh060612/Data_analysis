@@ -24,12 +24,15 @@ optimizer = optim.Adam(visionTransformer.parameters(), lr=learning_rate)
 total_batch = len(dataLoader)
 print('총 배치의 수 : {}'.format(total_batch))
 
+cnt = 0
+
 for epoch in range(training_epochs):
     avg_cost = 0
 
-    for X, Y in dataLoader: # 미니 배치 단위로 꺼내온다. X는 미니 배치, Y느 ㄴ레이블.
-        # image is already size of (28x28), no reshape
-        # label is not one-hot encoded
+    for X, Y in dataLoader: 
+        if cnt == 0:
+            print(X.shape)
+        cnt += 1
         X = X.to(device)
         Y = Y.to(device)
 
