@@ -26,7 +26,7 @@ class CellTrainingDataset(Dataset):
     def __init__(self, img_dir = '/data/CellData'):
         super().__init__()
         self.ImagePath = os.path.abspath(img_dir)
-        self.dataList = os.listdir(self.ImagePath + '/train')
+        self.dataList = os.listdir(self.ImagePath + '/train_resize')
         self.GTList = pd.read_csv(self.ImagePath + '/train.csv')
         self.imgLabel = self.getEncodedDistribution()
         self.ImageTensor = self.getRGBYImages()
@@ -48,7 +48,7 @@ class CellTrainingDataset(Dataset):
         image2Train = []
         for i in range(N):
             imageHash = self.GTList['ID'][i]
-            image2Load = imageMerge(imageHash, self.ImagePath + '/train')
+            image2Load = imageMerge(imageHash, self.ImagePath + '/train_resize')
             image2Train.append(image2Load)
         imageArr2Load = np.array(image2Train)
         print(imageArr2Load.shape)
@@ -65,7 +65,7 @@ class CellTrainingDataset(Dataset):
 class CellTestDataset:
     def __init__(self):
         super().__init__()
-        self.testImageDir = os.path.abspath('/data/CellData/test')
+        self.testImageDir = os.path.abspath('/data/CellData/test_resize')
         self.testList = os.listdir(self.testImageDir)
         self.testImage = self.getRGBYImage()
 
@@ -82,7 +82,6 @@ class CellTestDataset:
                 imageDict[imageHash] = [self.testList[i]]
         for _, key in enumerate(imageDict):
             imageHashList.append(key)
-            pass
         return imageHashList
 
     def getRGBYImage(self):
