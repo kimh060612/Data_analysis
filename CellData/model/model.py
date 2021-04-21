@@ -10,7 +10,7 @@ if device == 'cuda':
 
 visionTransformer = ViT(
     image_size=256,
-    patch_size=32,
+    patch_size=16,
     num_classes=19,
     channels=4,
     dim = 1024,
