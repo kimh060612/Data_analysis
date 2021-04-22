@@ -14,6 +14,7 @@ def imageMerge(imageHash, ImagePath):
         imageArray = cv2.imread(ImagePath + '/' + imageName, cv2.IMREAD_UNCHANGED)
         imageList.append(imageArray)
     RGBYImage = np.transpose(np.array(imageList), (1, 2, 0))
+    RGBYImage = np.transpose(RGBYImage, (2, 0, 1))
     return RGBYImage
 
 def oneHotEncoding(label):
