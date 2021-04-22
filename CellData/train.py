@@ -5,6 +5,7 @@ from model.loss import AsymmetricLoss
 from model.model import visionTransformer, device
 from Data import CellTestDataset, CellTrainingDataset
 from torch.utils.data import DataLoader
+from tqdm import tqdm
 
 learning_rate = 0.001
 training_epochs = 15
@@ -29,7 +30,7 @@ cnt = 0
 for epoch in range(training_epochs):
     avg_cost = 0
 
-    for X, Y in dataLoader: 
+    for X, Y in tqdm(dataLoader): 
         if cnt == 0:
             print(X.shape)
         cnt += 1
