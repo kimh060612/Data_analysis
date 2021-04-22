@@ -36,7 +36,7 @@ class AsymmetricLoss(nn.Module):
         # Asymmetric Focusing
         if self.gamma_neg > 0 or self.gamma_pos > 0:
             if self.disable_torch_grad_focal_loss:
-                torch._C.set_grad_enabled(False)
+                torch.set_grad_enabled(False)
             pt0 = xs_pos * y
             pt1 = xs_neg * (1 - y)  # pt = p if t > 0 else 1-p
             pt = pt0 + pt1
