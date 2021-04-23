@@ -7,7 +7,7 @@ from Data import CellTestDataset, CellTrainingDataset
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 
-learning_rate = 0.005
+learning_rate = 0.001
 training_epochs = 100
 batch_size = 64
 
