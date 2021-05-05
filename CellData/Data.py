@@ -69,6 +69,7 @@ class CellTestDataset:
         self.testImageDir = os.path.abspath('/data/CellData/test_resize')
         self.testList = os.listdir(self.testImageDir)
         self.testImage = self.getRGBYImage()
+        self.ImageHash = self.getTestImageDict()
 
     def getTestImageDict(self):
         N = len(self.testList)

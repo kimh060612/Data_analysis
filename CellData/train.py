@@ -12,7 +12,9 @@ training_epochs = 100
 batch_size = 64
 
 TrainData = CellTrainingDataset()
-TestData = CellTestDataset().testImage
+TestData = CellTestDataset()
+TestData_Image = TestData.testImage
+TestData_Hash = TestData.ImageHash
 
 dataLoader = DataLoader(dataset=TrainData, 
                         batch_size=64,
@@ -46,3 +48,7 @@ for epoch in range(training_epochs):
         avg_cost += cost / total_batch
 
     print('[Epoch: {:>4}] cost = {:>.9}'.format(epoch + 1, avg_cost))
+
+model_path = './DeepViTTorchModel.pt'
+torch.save(visionTransformer.state_dict(), model_path)
+

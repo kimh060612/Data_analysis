@@ -1,4 +1,5 @@
 from vit_pytorch import ViT
+from vit_pytorch.deepvit import DeepViT
 import torch
 import torch.nn as nn
 
@@ -8,7 +9,7 @@ torch.manual_seed(777)
 if device == 'cuda':
     torch.cuda.manual_seed_all(777)
 
-visionTransformer = v = ViT(
+visionTransformer = v = DeepViT(
     image_size = 256,
     patch_size = 32,
     num_classes = 19,
