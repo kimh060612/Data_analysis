@@ -52,3 +52,5 @@ for epoch in range(training_epochs):
 model_path = './DeepViTTorchModel.pt'
 torch.save(visionTransformer.state_dict(), model_path)
 
+for i in range(len(TestData_Hash)):
+    pass
