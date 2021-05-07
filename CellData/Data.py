@@ -70,6 +70,7 @@ class CellTestDataset:
         self.testList = os.listdir(self.testImageDir)
         self.testImage = self.getRGBYImage()
         self.ImageHash = self.getTestImageDict()
+        self.ImgSize = self.getTestImageSize()
 
     def getTestImageDict(self):
         N = len(self.testList)
@@ -96,3 +97,11 @@ class CellTestDataset:
         image2Test = np.array(image2Test)
         return image2Test
 
+    def getTestImageSize(self):
+        N = len(self.ImageHash)
+        ImgSizeHash = {}
+        for i in range(N):
+            img = cv2.imread(self.testImageDir + '/' + self.ImageHash[i] + '_red.png')
+            ImgSizeHash[self.ImageHash[i]] = (img.shape[0], img.shape[1])
+        return ImgSizeHash
+        

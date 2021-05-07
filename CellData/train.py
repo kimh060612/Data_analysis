@@ -3,18 +3,16 @@ import torch.nn as nn
 from torch import optim
 from model.loss import AsymmetricLoss
 from model.model import visionTransformer, device
-from Data import CellTestDataset, CellTrainingDataset
+from Data import CellTrainingDataset
 from torch.utils.data import DataLoader
 from tqdm import tqdm
+import pandas as pd
 
 learning_rate = 0.001
 training_epochs = 100
 batch_size = 64
 
 TrainData = CellTrainingDataset()
-TestData = CellTestDataset()
-TestData_Image = TestData.testImage
-TestData_Hash = TestData.ImageHash
 
 dataLoader = DataLoader(dataset=TrainData, 
                         batch_size=64,
@@ -51,6 +49,3 @@ for epoch in range(training_epochs):
 
 model_path = './DeepViTTorchModel.pt'
 torch.save(visionTransformer.state_dict(), model_path)
-
-for i in range(len(TestData_Hash)):
-    pass
