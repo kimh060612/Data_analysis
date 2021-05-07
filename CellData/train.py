@@ -9,7 +9,7 @@ from tqdm import tqdm
 import pandas as pd
 
 learning_rate = 0.001
-training_epochs = 100
+training_epochs = 20
 batch_size = 64
 
 TrainData = CellTrainingDataset()
