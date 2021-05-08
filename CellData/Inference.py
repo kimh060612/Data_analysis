@@ -34,12 +34,12 @@ visionTransformer = DeepViT(
     channels=4
 )
 
-ViT = visionTransformer.load_state_dict(torch.load(model_path))
-ViT.eval()
+visionTransformer.load_state_dict(torch.load(model_path))
+visionTransformer.eval()
 
 for i in tqdm(range(len(TestData_Hash))):
     testImg = TestData_Image[i].astype(np.float64)
-    result = ViT(torch.Tensor(testImg))
+    result = visionTransformer(torch.Tensor(testImg))
     result = torch.where(result > 0.6, ones, zeros).tolist()
     pred = result.join(' ')
     Submission['ID'].append(TestData_Hash[i])
