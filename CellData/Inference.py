@@ -19,7 +19,8 @@ Submission['ID'] = []
 Submission['ImageWidth'] = []
 Submission['ImageHeight'] = []
 Submission['PredictionString'] = []
-ViT = visionTransformer.load_state_dict(torch.load(model_path)).to(device)
+ViT = visionTransformer.load_state_dict(torch.load(model_path))
+ViT = ViT.to(device)
 
 for i in tqdm(range(len(TestData_Hash))):
     result = ViT(torch.Tensor(TestData_Image[i]))
