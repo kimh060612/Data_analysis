@@ -41,6 +41,7 @@ for i in tqdm(range(len(TestData_Hash))):
     testImg = TestData_Image[i].astype(np.float64)
     testImg = np.array([testImg])
     result = visionTransformer(torch.Tensor(testImg))
+    result = result.tolist()
     pred = [ j for j in range(len(result)) if result[j] > 0.2 ]
     prediction = ' '.join(pred)
     Submission['ID'].append(TestData_Hash[i])
