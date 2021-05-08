@@ -21,6 +21,7 @@ Submission['ImageWidth'] = []
 Submission['ImageHeight'] = []
 Submission['PredictionString'] = []
 ViT = visionTransformer.load_state_dict(torch.load(model_path))
+ViT.eval()
 
 for i in tqdm(range(len(TestData_Hash))):
     testImg = TestData_Image[i].astype(np.float64)
