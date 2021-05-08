@@ -1,5 +1,6 @@
 import torch
 from tqdm import tqdm
+import numpy as np
 import pandas as pd
 from Data import CellTestDataset
 from model.model import visionTransformer
@@ -22,7 +23,8 @@ Submission['PredictionString'] = []
 ViT = visionTransformer.load_state_dict(torch.load(model_path))
 
 for i in tqdm(range(len(TestData_Hash))):
-    result = ViT(torch.Tensor(TestData_Image[i]))
+    testImg = TestData_Image[i].astype(np.float64)
+    result = ViT(torch.Tensor(testImg))
     result = torch.where(result > 0.6, ones, zeros).tolist()
     pred = result.join(' ')
     Submission['ID'].append(TestData_Hash[i])
