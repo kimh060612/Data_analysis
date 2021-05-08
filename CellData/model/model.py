@@ -9,15 +9,18 @@ torch.manual_seed(777)
 if device == 'cuda':
     torch.cuda.manual_seed_all(777)
 
-visionTransformer = v = DeepViT(
-    image_size = 256,
-    patch_size = 32,
-    num_classes = 19,
-    dim = 2048,
-    depth = 6,
-    heads = 16,
-    mlp_dim = 2048,
-    dropout = 0.1,
-    emb_dropout = 0.3,
-    channels=4
+visionTransformer = nn.Sequential(
+    DeepViT(
+        image_size = 256,
+        patch_size = 32,
+        num_classes = 19,
+        dim = 2048,
+        depth = 6,
+        heads = 16,
+        mlp_dim = 2048,
+        dropout = 0.1,
+        emb_dropout = 0.3,
+        channels=4
+    ), 
+    nn.Sigmoid()
 ).to(device)
