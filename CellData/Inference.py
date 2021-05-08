@@ -39,6 +39,7 @@ visionTransformer.eval()
 
 for i in tqdm(range(len(TestData_Hash))):
     testImg = TestData_Image[i].astype(np.float64)
+    testImg = np.array([testImg])
     result = visionTransformer(torch.Tensor(testImg))
     result = torch.where(result > 0.6, ones, zeros).tolist()
     pred = result.join(' ')
