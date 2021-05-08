@@ -3,7 +3,7 @@ from tqdm import tqdm
 import numpy as np
 import pandas as pd
 from Data import CellTestDataset
-from model.model import visionTransformer
+from vit_pytorch.deepvit import DeepViT
 
 TestData = CellTestDataset()
 TestData_Image = TestData.testImage
@@ -20,6 +20,20 @@ Submission['ID'] = []
 Submission['ImageWidth'] = []
 Submission['ImageHeight'] = []
 Submission['PredictionString'] = []
+
+visionTransformer = DeepViT(
+    image_size = 256,
+    patch_size = 32,
+    num_classes = 19,
+    dim = 2048,
+    depth = 6,
+    heads = 16,
+    mlp_dim = 2048,
+    dropout = 0.1,
+    emb_dropout = 0.3,
+    channels=4
+)
+
 ViT = visionTransformer.load_state_dict(torch.load(model_path))
 ViT.eval()
 
