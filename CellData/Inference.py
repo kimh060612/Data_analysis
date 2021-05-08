@@ -42,8 +42,7 @@ for i in tqdm(range(len(TestData_Hash))):
     testImg = np.array([testImg])
     result = visionTransformer(torch.Tensor(testImg))
     result = result.tolist()[0]
-    pred = [ j for j in range(len(result)) if result[j] > 0.4 ]
-    print(pred)
+    pred = [ str(j) for j in range(len(result)) if result[j] > 0.4 ]
     prediction = " ".join(pred)
     Submission['ID'].append(TestData_Hash[i])
     Submission['ImageWidth'].append(TestData_Size[TestData_Hash[i]][0])
