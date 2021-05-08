@@ -101,7 +101,7 @@ class CellTestDataset:
         N = len(self.ImageHash)
         ImgSizeHash = {}
         for i in range(N):
-            img = cv2.imread(self.testImageDir + '/' + self.ImageHash[i] + '_red.png')
+            img = cv2.imread('/data/CellData/test/' + self.ImageHash[i] + '_red.png')
             ImgSizeHash[self.ImageHash[i]] = (img.shape[0], img.shape[1])
         return ImgSizeHash
         
