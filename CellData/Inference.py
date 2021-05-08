@@ -42,7 +42,7 @@ for i in tqdm(range(len(TestData_Hash))):
     testImg = np.array([testImg])
     result = visionTransformer(torch.Tensor(testImg))
     result = torch.where(result > 0.6, ones, zeros).tolist()
-    pred = result.join(' ')
+    pred = ' '.join(result)
     Submission['ID'].append(TestData_Hash[i])
     Submission['ImageWidth'].append(TestData_Size[TestData_Hash[i]][0])
     Submission['ImageHeight'].append(TestData_Size[TestData_Hash[i]][1])
