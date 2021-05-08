@@ -41,8 +41,7 @@ for i in tqdm(range(len(TestData_Hash))):
     testImg = TestData_Image[i].astype(np.float64)
     testImg = np.array([testImg])
     result = visionTransformer(torch.Tensor(testImg))
-    result = torch.where(result > 0.4, ones, zeros).tolist()
-    pred = [ j for j in range(len(result)) if result[j] == 1 ]
+    pred = [ j for j in range(len(result)) if result[j] > 0.2 ]
     prediction = ' '.join(pred)
     Submission['ID'].append(TestData_Hash[i])
     Submission['ImageWidth'].append(TestData_Size[TestData_Hash[i]][0])
@@ -50,4 +49,4 @@ for i in tqdm(range(len(TestData_Hash))):
     Submission['PredictionString'].append(prediction)
 
 SubmissionCSV = pd.DataFrame(Submission)
-SubmissionCSV.to_csv(submission_path)
+SubmissionCSV.to_csv(submission_path, index=False)
