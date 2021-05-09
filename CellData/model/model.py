@@ -22,5 +22,5 @@ visionTransformer = nn.Sequential(
         emb_dropout = 0.3,
         channels=4
     ), 
-    nn.Sigmoid()
+    nn.Softmax()
 ).to(device)

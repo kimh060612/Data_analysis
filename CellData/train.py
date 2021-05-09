@@ -19,7 +19,7 @@ dataLoader = DataLoader(dataset=TrainData,
                         shuffle=True,
                         drop_last = True)
 
-criterion = AsymmetricLoss()
+criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(visionTransformer.parameters(), lr=learning_rate)
 
 total_batch = len(dataLoader)
