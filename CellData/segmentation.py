@@ -4,6 +4,78 @@ import cv2
 import numpy as np
 import pandas as pd
 
+def rle_to_mask(rle_string, height, width):
+    """ Convert RLE sttring into a binary mask 
+    
+    Args:
+        rle_string (rle_string): Run length encoding containing 
+            segmentation mask information
+        height (int): Height of the original image the map comes from
+        width (int): Width of the original image the map comes from
+    
+    Returns:
+        Numpy array of the binary segmentation mask for a given cell
+    """
+    rows,cols = height,width
+    rle_numbers = [int(num_string) for num_string in rle_string.split(' ')]
+    rle_pairs = np.array(rle_numbers).reshape(-1,2)
+    img = np.zeros(rows*cols,dtype=np.uint8)
+    for index,length in rle_pairs:
+        index -= 1
+        img[index:index+length] = 255
+    img = img.reshape(cols,rows)
+    img = img.T
+    return img
+
+def get_contour_bbox_from_rle(rle, width, height, return_mask=True,):
+    """ Get bbox of contour as `xmin ymin xmax ymax`
+    
+    Args:
+        rle (rle_string): Run length encoding containing 
+            segmentation mask information
+        height (int): Height of the original image the map comes from
+        width (int): Width of the original image the map comes from
+    
+    Returns:
+        Numpy array for a cell bounding box coordinates
+    """
+    mask = rle_to_mask(rle, height, width).copy()
+    cnts = grab_contours(
+        cv2.findContours(
+            mask, 
+            cv2.RETR_EXTERNAL, 
+            cv2.CHAIN_APPROX_SIMPLE
+        ))
+    x,y,w,h = cv2.boundingRect(cnts[0])
+    
+    if return_mask:
+        return (x,y,x+w,y+h), mask
+    else:
+        return (x,y,x+w,y+h)
+
+def grab_contours(cnts):
+    # if the length the contours tuple returned by cv2.findContours
+    # is '2' then we are using either OpenCV v2.4, v4-beta, or
+    # v4-official
+    if len(cnts) == 2:
+        cnts = cnts[0]
+
+    # if the length of the contours tuple is '3' then we are using
+    # either OpenCV v3, v4-pre, or v4-alpha
+    elif len(cnts) == 3:
+        cnts = cnts[1]
+
+    # otherwise OpenCV has changed their cv2.findContours return
+    # signature yet again and I have no idea WTH is going on
+    else:
+        raise Exception(("Contours tuple must have length 2 or 3, "
+            "otherwise OpenCV changed their cv2.findContours return "
+            "signature yet again. Refer to OpenCV's documentation "
+            "in that case"))
+
+    # return the actual contours array
+    return cnts
+
 def get_contour_bbox_from_raw(raw_mask):
     """ Get bbox of contour as `xmin ymin xmax ymax`
     
@@ -56,7 +128,7 @@ def cut_out_cells(rgby, rles, resize_to=(256,256), square_off=True, return_masks
         list of square arrays representing squared off cell images
     """
     w,h = rgby.shape[:2]
-    contour_bboxes = [get_contour_bbox(rle, w, h, return_mask=return_masks) for rle in rles]
+    contour_bboxes = [get_contour_bbox_from_rle(rle, w, h, return_mask=return_masks) for rle in rles]
     if return_masks:
         masks = [x[-1] for x in contour_bboxes]
         contour_bboxes = [x[:-1] for x in contour_bboxes]
